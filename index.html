@@ -44,15 +44,21 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
   <div class="card"><h3>🎨 커미션</h3><p>신청 접수부터 마감 · 입금 · 완성작 · 답장 템플릿까지</p></div>
   <div class="card"><h3>🎞 레코드</h3><p>본 것 · 한 것을 갤러리 · 책 · 스레드로 기록</p></div>
   <div class="card"><h3>💰 가계부</h3><p>수입 · 지출과 한 달 예산</p></div>
-  <div class="card"><h3>🕒 구글 캘린더 (PC 프로그램)</h3><p>허락한 경우에만 내 구글 캘린더 일정을 타임테이블에 보여 주고, 앱에서 만든 일정을 내 캘린더에 반영해요.</p></div>
+  <div class="card"><h3>🕒 구글 캘린더 · 할 일 · 드라이브</h3><p>허락한 경우에만 내 구글 캘린더 일정과 구글 할 일을 앱에 보여 주고 앱에서 만든 것을 반영해요. 구글 드라이브에는 앱이 만든 Daterbase 폴더에만 내 데이터를 저장해 기기끼리 맞춰요.</p></div>
   <div class="card"><h3>🔒 내 데이터는 내 기기에</h3><p>앱에 적은 내용은 내 기기, 또는 내가 직접 만든 Supabase 프로젝트에만 저장돼요. 개발자는 볼 수 없어요.</p></div>
 </div>
 
 <section class="en" lang="en">
   <h2>About Daterbase (English)</h2>
   <p>Daterbase is a personal, non-commercial productivity app that combines a decorated planner (calendar, to-dos, habit tracker, timer), commission (art request) management, a record journal (gallery, books, threads) and a budget book in one place. It runs as a web app and as a desktop app for Windows.</p>
-  <p><b>How Daterbase uses Google user data:</b> Only after the user clicks "Connect Google account" in the desktop app and grants access, Daterbase uses the Google Calendar API to show the user's calendar events in the app's timetable, and to create, update or delete events that the user makes in Daterbase on the user's own Google Calendar (two-way sync). Calendar data and sign-in tokens are stored only on the user's own device. They are never sent to the developer or any third party, and are not used for advertising or analytics.</p>
-  <p>What you write in the app is stored only on your device or in a Supabase project you own. The developer cannot see it. See the <a href="privacy">Privacy Policy</a> for the little the developer does receive (orders, anonymous usage stats, reports).</p>
+  <p><b>How Daterbase uses Google user data:</b> Google sign-in is optional. Only after the user connects a Google account in Daterbase (web or desktop app) and grants access:</p>
+  <ul>
+    <li><b>Google Calendar</b> (calendar scope): shows events from the calendars the user picks in the app's timetable, and creates, updates or deletes the events the user makes in Daterbase on the user's own calendar (two-way sync).</li>
+    <li><b>Google Tasks</b> (tasks scope): shows the user's Google Tasks in the app's to-do list and syncs tasks the user creates, edits, completes or deletes in Daterbase back to Google Tasks.</li>
+    <li><b>Google Drive</b> (drive.file scope): saves the user's own planner data file in a "Daterbase" folder the app creates in the user's Drive, so it syncs between the user's devices. The app can only access files it created.</li>
+  </ul>
+  <p>Data from Google APIs moves only between the user's device and the user's Google account. It is never sent to the developer or any third party, never sold, and not used for advertising, analytics or AI training. Daterbase's use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+  <p>What you write in the app is stored only on your device, or, if you turn on sync, in a Supabase project or Google Drive folder you own. The developer cannot see it. See the <a href="privacy">Privacy Policy</a> for the little the developer does receive (orders, anonymous usage stats, reports).</p>
 </section>
 
 <footer>
