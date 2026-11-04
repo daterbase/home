@@ -16,7 +16,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}th,td{border-bottom:1px
 .tw{overflow-x:auto}
 </style></head><body><main>
 <h1>Daterbase 개인정보 처리방침</h1><p class="mut"><a href="./">Daterbase</a> · <a href="privacy">개인정보 처리방침</a> · <a href="terms">이용약관</a> · <a href="#en">English</a></p>
-<p class="mut">시행일: 2026년 11월 2일 · 운영자: Daterbase · 문의: <a href="mailto:daterbasedesk@gmail.com">daterbasedesk@gmail.com</a></p>
+<p class="mut">시행일: 2026년 11월 4일 · 운영자: Daterbase · 문의: <a href="mailto:daterbasedesk@gmail.com">daterbasedesk@gmail.com</a></p>
 <section>
 <p>Daterbase(이하 '앱')는 플래너 · 커미션 관리 · 기록 · 가계부를 한곳에서 쓰는 앱이에요. 개인정보 보호법 제30조에 따라, 앱이 어떤 정보를 왜 다루는지 알려 드려요.</p>
 <h2>1. 앱에 적은 내용</h2>
@@ -39,30 +39,52 @@ table{width:100%;border-collapse:collapse;font-size:14px}th,td{border-bottom:1px
 <li>로그인 토큰을 발급받는 과정만 운영자의 Apps Script 서버를 거쳐요(앱 비밀키를 앱 파일에 넣지 않기 위해서). 이 서버는 토큰을 저장하지 않고 바로 이용자 기기로 돌려줘요.</li>
 <li>앱의 구글 API 데이터 사용과 다른 앱으로의 전송은 <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API 서비스 사용자 데이터 정책</a>(제한적 사용 요건 포함)을 따라요.</li>
 </ul>
-<h2>4. 보관 기간</h2>
+<h2>4. 데이터 보호 장치</h2>
+<ul>
+<li><b>전송 암호화</b>: 앱과 구글 API · 동기화 저장소 · 운영자 서버 사이의 모든 통신은 HTTPS(TLS)로 암호화돼요.</li>
+<li><b>저장 암호화</b>: 구글 캘린더 · 할 일 · 드라이브, 이용자의 Supabase 프로젝트, 운영자의 Apps Script · 스프레드시트는 모두 각 서비스가 저장 데이터를 암호화해요(구글 · Supabase 모두 AES-256).</li>
+<li><b>구글 데이터는 서버에 두지 않음</b>: 구글에서 받은 일정 · 할 일 · 파일은 이용자 기기와 이용자 구글 계정 사이에서만 오가고, 운영자 서버 · 스프레드시트에 저장하지 않아요. 운영자는 이 데이터에 접근할 수 없어요.</li>
+<li><b>토큰 보호</b>: 구글 로그인 토큰은 이용자 기기의 앱 저장 공간에만 보관해요. 앱 비밀키는 앱 파일에 넣지 않고 운영자 서버에만 두며, 토큰 교환 때도 서버는 토큰을 기록하지 않아요. 구글 계정 권한 페이지에서 권한을 끊으면 토큰은 바로 쓸 수 없게 돼요.</li>
+<li><b>최소 권한</b>: 기능에 꼭 필요한 권한만 요청하고(드라이브는 앱이 만든 파일만 다루는 drive.file), 이용자가 연결을 켠 경우에만 요청해요.</li>
+<li><b>접근 제한</b>: 운영자 서버와 스프레드시트(구매 · 제보 · 통계 기록)는 운영자 본인 구글 계정만 열 수 있고, 다른 사람과 공유하지 않아요.</li>
+<li><b>보관과 삭제</b>: 아래 보관 기간이 지나면 지워요. 이용자는 앱 설정 · 구글 계정 권한 페이지에서 언제든 연결을 끊고, 메일로 기록 삭제를 요청할 수 있어요.</li>
+<li><b>사고 대응</b>: 개인정보 유출을 알게 되면 바로 막고, 관련 법에 따라 이용자에게 알리고 신고해요.</li>
+</ul>
+<h2>5. 보관 기간</h2>
 <ul>
 <li>구매 기록: 전자상거래법에 따라 5년</li>
 <li>제보 · 문의: 처리 후 1년</li>
 <li>익명 사용 통계 · 오류 기록: 1년</li>
 </ul>
-<h2>5. 남에게 주는 정보</h2>
+<h2>6. 남에게 주는 정보</h2>
 <p>없어요. 결제는 텀블벅 · 위치폼이 처리하며 각 서비스의 처리방침을 따라요. 구글 폼 주문은 계좌이체라 카드 정보를 받지 않아요.</p>
-<h2>6. 이용자 권리</h2>
+<h2>7. 이용자 권리</h2>
 <ul>
 <li>앱 설정에서 동기화 끊기 · 데이터 내보내기 · 지우기를 할 수 있어요.</li>
 <li>구글 계정 설정(<a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>)에서 앱 권한을 언제든 끊을 수 있어요.</li>
 <li>구매 · 제보 · 통계 기록을 보거나 지우고 싶으면 아래 메일로 알려 주세요. 구매 기록은 법정 보관 기간이 지나야 지울 수 있어요.</li>
 </ul>
-<h2>7. 문의</h2>
+<h2>8. 문의</h2>
 <p>운영자: Daterbase · 메일: <a href="mailto:daterbasedesk@gmail.com">daterbasedesk@gmail.com</a> · 앱 안의 💬 제보 · 문의</p>
 <p class="mut">이 처리방침이 바뀌면 이 페이지와 앱 업데이트 안내로 알려 드려요.</p>
 </section>
 <section id="en">
 <h2>Privacy Policy (English)</h2>
-<p class="mut">Effective November 2, 2026 · Operator: Daterbase · Contact: daterbasedesk@gmail.com</p>
+<p class="mut">Effective November 4, 2026 · Operator: Daterbase · Contact: daterbasedesk@gmail.com</p>
 <p><b>Your content.</b> What you write in the app (events, to-dos, notes, records, budget) is stored on your device and, if you turn on sync, in storage you own (your own Supabase project or, when available, an app-only folder in your Google Drive). The operator cannot see it.</p>
 <p><b>What the operator receives.</b> Order details when you buy (order number, buyer name, email, depositor name, items, amount) to confirm payment and handle refunds; a random device identifier and device type when you register a purchase (5 devices per purchase); anonymous usage statistics and error messages (random device identifier, app version, device type, language, screen usage counts; no name or email); and the content of reports you send. These are stored in the operator's Google Apps Script server and Google Sheets, visible only to the operator.</p>
 <p><b>Google user data.</b> Google Calendar (calendar scope) is used only to show events from calendars you pick and to write events you create in the app. Google Tasks (tasks scope) is used only to sync your task lists. Google Drive (drive.file, planned) only reads and writes files in the 'Daterbase' folder the app creates. Data from Google APIs moves only between your device and your Google account; it is not stored on the operator's server, sold, shared, used for advertising, or used to train AI models. Only the OAuth token exchange passes through the operator's Apps Script server (so the client secret is not shipped in the app); tokens are returned to your device and not stored. Daterbase's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+<p><b>How we protect data.</b></p>
+<ul>
+<li><b>Encryption in transit:</b> all traffic between the app and Google APIs, sync storage and the operator's server uses HTTPS (TLS).</li>
+<li><b>Encryption at rest:</b> Google Calendar, Tasks and Drive, your Supabase project, and the operator's Apps Script and Google Sheets all encrypt stored data (AES-256 at Google and Supabase).</li>
+<li><b>No server-side storage of Google data:</b> data received from Google APIs moves only between your device and your Google account. It is never stored on the operator's server or sheets, and the operator cannot access it.</li>
+<li><b>Token protection:</b> OAuth tokens are kept only in the app's storage on your device. The client secret is kept on the operator's server, not in the app, and the server does not log or store tokens during the exchange. Revoking access at myaccount.google.com/permissions makes the tokens stop working immediately.</li>
+<li><b>Least privilege:</b> the app requests only the scopes its features need (drive.file for Drive, limited to files the app creates), and only after you choose to connect.</li>
+<li><b>Access control:</b> the operator's server and sheets (purchase, report and statistics records) are accessible only to the operator's own Google account and are not shared with anyone.</li>
+<li><b>Retention and deletion:</b> records are deleted after the retention periods below. You can disconnect at any time in Settings or at myaccount.google.com/permissions, and request deletion by email.</li>
+<li><b>Incident response:</b> if we learn of a data breach, we contain it immediately and notify affected users and authorities as required by law.</li>
+</ul>
 <p><b>Retention.</b> Purchase records 5 years (Korean e-commerce law); reports 1 year after handling; anonymous statistics and error logs 1 year.</p>
 <p><b>Sharing.</b> None. Payments are processed by Tumblbug and Witchform under their own policies.</p>
 <p><b>Your choices.</b> Disconnect sync, export or delete data in Settings; revoke Google access at myaccount.google.com/permissions; email us to access or delete purchase, report or statistics records.</p>
