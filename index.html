@@ -1,62 +1,96 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Daterbase — 플래너 · 커미션 · 기록 · 가계부</title>
-<meta name="description" content="다꾸하듯 꾸미는 플래너에 커미션 관리, 기록, 가계부까지. 다꾸러, 커미션주, 덕질러, 일상 관리가 필요한 사람까지 모두를 위한 올인원 프로그램.">
+<title>Daterbase — 따로 쓰던 걸 한곳에서</title>
+<meta name="description" content="다꾸하듯 꾸미는 플래너에 다이어리, 가계부, 커미션까지. 따로 쓰던 걸 한곳에서, 한 번만 적으면 이어져요.">
 <link rel="canonical" href="https://daterbase.net/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Daterbase">
 <meta property="og:url" content="https://daterbase.net/">
-<meta property="og:title" content="Daterbase — 플래너 · 커미션 · 기록 · 가계부">
-<meta property="og:description" content="다꾸하듯 꾸미는 플래너에 커미션 관리, 기록, 가계부까지.">
-<meta property="og:image" content="https://daterbase.net/pc_planner.webp">
+<meta property="og:title" content="Daterbase — 따로 쓰던 걸 한곳에서">
+<meta property="og:description" content="다꾸하듯 꾸미는 플래너에 다이어리, 가계부, 커미션까지. 한 번만 적으면 이어져요.">
 <meta property="og:locale" content="ko_KR">
+<link rel="preload" href="p.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon.svg">
 <style>
-:root{--bg:#f6f4f0;--card:#fff;--fg:#26231f;--mut:#78726a;--line:#e6e1d9;--ac:#5b5bd6}
-@media (prefers-color-scheme:dark){:root{--bg:#18171a;--card:#222126;--fg:#eceae6;--mut:#a29d96;--line:#34323a;--ac:#9a9af0}}
+@font-face{font-family:P;src:url(p.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--lime:#F2F7AE;--ink:#2B2B2B;--sub:#626262;--green:#16794A;--card:#FFFFFF;--line:#E4E6D2;--page:#FAFBF2}
+@media (prefers-color-scheme:dark){:root{--lime:#26271F;--ink:#ECEDE4;--sub:#A9AA9E;--green:#7CCB9C;--card:#1C1D18;--line:#3A3B31;--page:#14150F}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 "Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
-a{color:var(--ac)}
-main{max-width:860px;margin:0 auto;padding:48px 16px 72px}
-header{text-align:center;margin-bottom:28px}
-header img{width:72px;height:72px;border-radius:18px}
-h1{margin:10px 0 6px;font-size:clamp(36px,8vw,56px);line-height:1.05;letter-spacing:-.04em}
-.lead{margin:0;color:var(--mut)}
-h2{margin:36px 0 12px;font-size:22px;letter-spacing:-.02em}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
-.card h3{margin:0 0 4px;font-size:16px}.card p{margin:0;color:var(--mut);font-size:14px}
-figure{margin:0}figure img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
-.shots{display:grid;grid-template-columns:1fr 200px;gap:14px;align-items:start}
-.en{margin-top:40px;padding-top:8px;border-top:1px solid var(--line)}
-footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
-@media (max-width:640px){.grid,.shots{grid-template-columns:1fr}.shots figure:last-child{max-width:220px;margin:0 auto}}
-.go{margin:18px 0 0}.btn{display:inline-block;padding:11px 22px;border-radius:999px;background:var(--ac);color:#fff;text-decoration:none;font-weight:700}
-</style></head>
-<body><main>
-<header>
-  <img src="icon-192.png" alt="Daterbase 아이콘">
-  <h1>Daterbase</h1>
-  <p class="lead">다꾸러, 커미션주, 덕질러, 일상 관리가 필요한 사람까지.<br><b>모두를 위한 올인원 프로그램.</b></p>
-  <p class="go"><a class="btn" href="/app/">웹에서 열기</a></p>
-</header>
-
-<div class="shots">
-  <figure><img src="pc_planner.webp" alt="플래너 화면 (예시 데이터)"></figure>
-  <figure><img src="m_today.webp" alt="폰 화면 (예시 데이터)"></figure>
+html,body{margin:0;background:var(--page)}
+body{color:var(--ink);font:16px/1.5 P,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--green)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+h1,h2{font-weight:800;letter-spacing:-.04em;line-height:1.1;margin:0}
+h1 em,h2 em{font-style:normal;color:var(--green)}
+.pill{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 18px;border-radius:999px;background:var(--card);font-weight:800;font-size:16px;line-height:1;white-space:nowrap}
+.pill i{width:10px;height:10px;border-radius:50%;background:var(--green)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 28px;border-radius:999px;font-weight:800;font-size:17px;text-decoration:none;line-height:1;white-space:nowrap}
+.btn--main{background:var(--ink);color:var(--lime)}
+.btn--sub{background:var(--card);color:var(--ink)}
+.small{font-size:14px;color:var(--sub)}.small a{color:var(--ink);font-weight:700}
+.shot{display:block;width:100%;height:auto;border-radius:16px;border:1px solid var(--line);background:var(--card)}
+.phone{border-radius:28px;border:6px solid var(--ink);background:var(--ink)}
+.sec{padding:80px 0}
+.sec h2{font-size:clamp(32px,4.4vw,48px);margin-bottom:32px}
+.tile{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:26%;color:#fff;flex:none}
+.tile svg{width:56%;height:56%;overflow:visible}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px}
+.card b{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.card .tabs{font-size:14px;font-weight:700}
+.card p{margin:0;color:var(--sub);font-size:15px}
+.card .pr{margin-top:auto;font-weight:800;color:var(--green)}
+.price{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 24px;display:flex;flex-direction:column;gap:8px}
+.pc.hl{border:2px solid var(--ink)}
+.pc .nm{font-weight:800;font-size:18px}
+.pc .won{font-weight:800;font-size:36px;letter-spacing:-.03em;line-height:1.2}
+.pc .won s{font-size:16px;color:var(--sub);font-weight:600;margin-left:8px}
+.pc ul{margin:8px 0 0;padding:0 0 0 18px;color:var(--sub);font-size:15px}
+.note{margin-top:24px;display:grid;gap:8px;color:var(--sub);font-size:15px}
+.trust{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.trust .card b{font-size:18px}
+.en{font-size:15px;color:var(--sub)}.en h2{font-size:24px;color:var(--ink);margin:0 0 12px}
+footer{padding:40px 0 56px;text-align:center;color:var(--sub);font-size:14px}
+.word{font-weight:800;color:var(--ink);font-size:20px;letter-spacing:-.02em;margin-bottom:8px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.price{grid-template-columns:1fr}}
+@media (max-width:640px){.wrap{padding:0 16px}.grid,.trust{grid-template-columns:1fr}.sec{padding:56px 0}.btn{height:48px;padding:0 22px;font-size:16px}}
+.hero{background:var(--lime);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:5fr 6fr;gap:48px;align-items:center;padding-top:40px;padding-bottom:64px}
+.top{display:flex;align-items:center;justify-content:space-between;padding-top:24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.02em}.logo img{width:36px;height:36px;border-radius:9px}
+.hero h1{font-size:clamp(48px,6.4vw,88px);margin:0 0 20px}
+.hero .lead{margin:0 0 32px;color:var(--sub);font-size:20px;font-weight:600}.hero .lead b{color:var(--ink);font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.chip{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 6px;border-radius:999px;background:var(--card);font-weight:800;font-size:15px;line-height:1;white-space:nowrap}
+.chip .tile{width:26px;height:26px;border-radius:50%}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;transform:rotate(-4deg)}
+.tiles .tile{width:100%;height:auto;aspect-ratio:1;border-radius:26%}
+.tiles .tile:nth-child(odd){transform:translateY(16px) rotate(6deg)}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.tiles{max-width:420px}}
+</style></head><body>
+<header class="hero"><div class="wrap top" style="display:flex"><div class="logo"><img src="icon-192.png" alt="">Daterbase</div><a class="btn btn--main" style="height:40px;padding:0 18px;font-size:15px" href="#buy">구매 안내</a></div><div class="wrap">
+<div><h1>따로 쓰던 걸<br><em>한곳에서</em></h1>
+<p class="lead">다꾸하듯 꾸미는 플래너에 다이어리, 가계부, 커미션까지.<br><b>한 번만 적으면 이어져요.</b></p><div class="chips"><span class="chip"><span class="tile" style="background:#16794A"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="15" rx="2.4" /><path d="M8.5 3.5v3.5M15.5 3.5v3.5" /><path d="M4 10h16" /><path stroke-width="2.4" d="M8 13.4h.01M12 13.4h.01M16 13.4h.01M8 17h.01M12 17h.01" /></g></svg></span>기본</span><span class="chip"><span class="tile" style="background:#C2477A"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.2" /><path d="M8.6 3.5v17" /><path d="M12.6 3.5v6l1.7-1.3 1.7 1.3v-6" /></g></svg></span>기록</span><span class="chip"><span class="tile" style="background:#E08A2E"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H17v3M4 7.5V17a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 1 4 7.5zM16 13.5h.01" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span>생활</span><span class="chip"><span class="tile" style="background:#3B6FD8"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6a8.4 8.4 0 0 0 0 16.8c1.2 0 1.9-.75 1.9-1.7 0-1.3-1-1.55-1-2.75 0-1 .8-1.7 1.9-1.7h2a3.6 3.6 0 0 0 3.6-3.6C20.4 6.9 16.6 3.6 12 3.6z" /><path stroke-width="2.4" d="M7.6 11h.01M9.4 7.6h.01M13.6 6.9h.01M8.2 15h.01" /></g></svg></span>업무</span></div><div class="btns"><a class="btn btn--main" href="#buy">구매 안내</a><a class="btn btn--sub" href="#bundles">무엇이 들어 있나요</a></div><p class="small" style="margin-top:16px">이미 샀다면 <a href="/app/">웹에서 열기</a> · <a href="/pc/">PC 프로그램 받기</a></p></div>
+<div class="tiles"><span class="tile" style="background:#16794A" title="달력·일정"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="15" rx="2.4" /><path d="M8.5 3.5v3.5M15.5 3.5v3.5" /><path d="M4 10h16" /><path stroke-width="2.4" d="M8 13.4h.01M12 13.4h.01M16 13.4h.01M8 17h.01M12 17h.01" /></g></svg></span><span class="tile" style="background:#16794A" title="할 일"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tile" style="background:#C2477A" title="하루 한 장"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.2" /><path d="M8.6 3.5v17" /><path d="M12.6 3.5v6l1.7-1.3 1.7 1.3v-6" /></g></svg></span><span class="tile" style="background:#3B6FD8" title="의뢰 관리"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6a8.4 8.4 0 0 0 0 16.8c1.2 0 1.9-.75 1.9-1.7 0-1.3-1-1.55-1-2.75 0-1 .8-1.7 1.9-1.7h2a3.6 3.6 0 0 0 3.6-3.6C20.4 6.9 16.6 3.6 12 3.6z" /><path stroke-width="2.4" d="M7.6 11h.01M9.4 7.6h.01M13.6 6.9h.01M8.2 15h.01" /></g></svg></span><span class="tile" style="background:#E08A2E" title="내역"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H17v3M4 7.5V17a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 1 4 7.5zM16 13.5h.01" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tile" style="background:#16794A" title="트래커"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2.4" /><path d="M7.5 9.2l1.4 1.4 2.4-2.8M7.5 15.2l1.4 1.4 2.4-2.8M13.8 9.4h2.7M13.8 15.4h2.7" /></g></svg></span><span class="tile" style="background:#16794A" title="마음"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0 -0.72)"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19.8s-7.6-4.5-7.6-10a4.1 4.1 0 0 1 7.6-2.2 4.1 4.1 0 0 1 7.6 2.2c0 5.5-7.6 10-7.6 10z" /></g></g></svg></span><span class="tile" style="background:#E08A2E" title="현황·장보기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16l-1.5 9h-13zM8 10l3-6M16 10l-3-6M9 14v2M15 14v2" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tile" style="background:#3B6FD8" title="완성작 모아 보기"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="2.2" /><path d="M3.5 16.4 8 12l3.4 3.4 2.6-2.6L19.5 18.3" /><path stroke-width="3.1" d="M15.6 9.4h.01" /></g></svg></span><span class="tile" style="background:#C2477A" title="그림·사진 모음"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 16l4.5-4.5 4 4L15 13l5 5M15.5 9.5h.01" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tile" style="background:#16794A" title="목표"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 16.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zM12 12h.01" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tile" style="background:#3B6FD8" title="작업 도장"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 16.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zM12 12h.01" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tile" style="background:#16794A" title="타이머"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tile" style="background:#C2477A" title="감상 기록"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0 -0.5)"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="4.6" rx="1.3" /><path d="M5 9.1h14v9.6a1.8 1.8 0 0 1-1.8 1.8H6.8A1.8 1.8 0 0 1 5 18.7z" /><path d="M10 12.8h4" /></g></g></svg></span><span class="tile" style="background:#E08A2E" title="예정 지출"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-2-1.3-2 1.3-2-1.3-2 1.3-2-1.3L6 21zM9 8h6M9 12h6M9 16h3" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tile" style="background:#16794A" title="스티커"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6.5M20 12.5 12.5 20M20 12.5h-5.5a2 2 0 0 0-2 2V20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+</div></header>
+<section class="sec" id="bundles"><div class="wrap"><h2>쓰고 싶은 것만 <em>골라서</em></h2><div class="grid"><div class="card"><span class="tile" style="background:#16794A"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="15" rx="2.4" /><path d="M8.5 3.5v3.5M15.5 3.5v3.5" /><path d="M4 10h16" /><path stroke-width="2.4" d="M8 13.4h.01M12 13.4h.01M16 13.4h.01M8 17h.01M12 17h.01" /></g></svg></span><b>기본</b><span class="tabs"><span style="white-space:nowrap">대시보드</span> · <span style="white-space:nowrap">플래너</span> · <span style="white-space:nowrap">할 일</span> · <span style="white-space:nowrap">메모지</span> · <span style="white-space:nowrap">나 챙기기</span></span><p>하루·한 달·한 해 계획을 한곳에서. 습관·기분·복약도 같이 챙겨요.</p><span class="pr">늘 들어 있어요</span></div><div class="card"><span class="tile" style="background:#C2477A"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.2" /><path d="M8.6 3.5v17" /><path d="M12.6 3.5v6l1.7-1.3 1.7 1.3v-6" /></g></svg></span><b>기록</b><span class="tabs"><span style="white-space:nowrap">다이어리</span> · <span style="white-space:nowrap">스크랩북</span> · <span style="white-space:nowrap">아카이브</span></span><p>하루 일기와 모아 두고 싶은 것들을 차곡차곡.</p><span class="pr">+ 8,000원</span></div><div class="card"><span class="tile" style="background:#E08A2E"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H17v3M4 7.5V17a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 1 4 7.5zM16 13.5h.01" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>생활</b><span class="tabs"><span style="white-space:nowrap">가계부</span> · <span style="white-space:nowrap">살림</span></span><p>돈 관리와 집안 살림을 한곳에서.</p><span class="pr">+ 8,000원</span></div><div class="card"><span class="tile" style="background:#3B6FD8"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6a8.4 8.4 0 0 0 0 16.8c1.2 0 1.9-.75 1.9-1.7 0-1.3-1-1.55-1-2.75 0-1 .8-1.7 1.9-1.7h2a3.6 3.6 0 0 0 3.6-3.6C20.4 6.9 16.6 3.6 12 3.6z" /><path stroke-width="2.4" d="M7.6 11h.01M9.4 7.6h.01M13.6 6.9h.01M8.2 15h.01" /></g></svg></span><b>업무</b><span class="tabs"><span style="white-space:nowrap">커미션</span> · <span style="white-space:nowrap">외주</span> · <span style="white-space:nowrap">사무</span> · <span style="white-space:nowrap">작업 트래커</span></span><p>의뢰 목록부터 완성작까지, 마감과 작업 시간을 한눈에.</p><span class="pr">+ 8,000원</span></div></div></div></section><section class="sec" id="buy"><div class="wrap">
+<h2>필요한 만큼만 <em>사요</em></h2>
+<div class="price">
+ <div class="pc"><span class="nm">기본</span><span class="won">17,000원</span><span class="small">텀블벅 펀딩 16,000원</span><ul><li>대시보드 · 플래너 · 할 일 · 메모지 · 나 챙기기</li></ul></div>
+ <div class="pc"><span class="nm">기본 + 내게 맞는 묶음 하나</span><span class="won">25,000원</span><span class="small">텀블벅 펀딩 24,000원</span><ul><li>기본 17,000 + 묶음 8,000</li><li>기록 · 생활 · 업무 중 하나</li></ul></div>
+ <div class="pc hl"><span class="nm">전부</span><span class="won">32,000원</span><span class="small">텀블벅 펀딩 30,000원</span><ul><li>기본 + 묶음 3개</li><li>기록 · 생활 · 업무 모두</li></ul></div>
 </div>
-
-<h2>할 수 있는 것</h2>
-<div class="grid">
-  <div class="card"><h3>📅 플래너</h3><p>달력 · 오늘 할 일 · 습관 트래커 · 타이머, 스티커와 메모로 꾸미기</p></div>
-  <div class="card"><h3>🎨 커미션</h3><p>신청 접수부터 마감 · 입금 · 완성작 · 답장 템플릿까지</p></div>
-  <div class="card"><h3>🎞 레코드</h3><p>본 것 · 한 것을 갤러리 · 책 · 스레드로 기록</p></div>
-  <div class="card"><h3>💰 가계부</h3><p>수입 · 지출과 한 달 예산</p></div>
-  <div class="card"><h3>🕒 구글 캘린더 · 할 일 · 드라이브</h3><p>허락한 경우에만 내 구글 캘린더 일정과 구글 할 일을 앱에 보여 주고 앱에서 만든 것을 반영해요. 구글 드라이브에는 앱이 만든 Daterbase 폴더에만 내 데이터를 저장해 기기끼리 맞춰요.</p></div>
-  <div class="card"><h3>🔒 내 데이터는 내 기기에</h3><p>앱에 적은 내용은 내 기기, 또는 동기화를 켜면 내가 만든 Supabase 프로젝트나 내 구글 드라이브의 Daterbase 폴더에만 저장돼요. 개발자는 볼 수 없어요.</p></div>
-</div>
-
-<section class="en" lang="en">
+<div class="note"><span>나중에 더 필요해지면 차액만 내요. 묶음 하나 8,000원, 기본+묶음에서 전부로 7,000원, 기본에서 전부로 15,000원.</span><span>묶음 두 개가 필요하면 전부가 더 싸요.</span></div>
+<div class="btns" style="margin-top:32px"><span class="btn btn--main">11월 18일 오후 6시 텀블벅 오픈</span><span class="small" style="align-self:center">12월 7일부터 상시 판매</span></div>
+</div></section><section class="sec" style="padding-top:0"><div class="wrap">
+<h2>내 기록은 <em>내 곳에</em></h2>
+<div class="trust">
+ <div class="card"><b>내 데이터는 내 기기에</b><p>앱에 적은 내용은 내 기기, 또는 동기화를 켜면 내가 만든 Supabase 프로젝트나 내 구글 드라이브의 Daterbase 폴더에만 저장돼요. 만든 사람도 볼 수 없어요.</p></div>
+ <div class="card"><b>구글 캘린더 · 할 일 · 드라이브</b><p>허락한 경우에만 내 구글 캘린더 일정과 구글 할 일을 앱에 보여 주고 앱에서 만든 것을 반영해요. 구글 드라이브에는 앱이 만든 Daterbase 폴더에만 내 데이터를 저장해 기기끼리 맞춰요.</p></div>
+</div></div></section>
+<div class="wrap"><section class="en" lang="en">
   <h2>About Daterbase (English)</h2>
   <p>Daterbase is a personal productivity app that combines a decorated planner (calendar, to-dos, habit tracker, timer), commission (art request) management, a record journal (gallery, books, threads) and a budget book in one place. It runs as a web app and as a desktop app for Windows.</p>
   <p><b>How Daterbase uses Google user data:</b> Google sign-in is optional. Only after the user connects a Google account in Daterbase (web or desktop app) and grants access:</p>
@@ -68,9 +102,7 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
   <p>Data from Google APIs moves only between the user's device and the user's Google account. It is never sent to the developer or any third party, never sold, and not used for advertising, analytics or AI training. Daterbase's use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
   <p>What you write in the app is stored only on your device, or, if you turn on sync, in a Supabase project or Google Drive folder you own. The developer cannot see it. See the <a href="privacy">Privacy Policy</a> for the little the developer does receive (orders, anonymous usage stats, reports).</p>
 </section>
-
-<footer>
-  <a href="privacy">개인정보 처리방침 · Privacy Policy</a> · <a href="terms">이용약관 · Terms</a><br>문의 <a href="mailto:daterbasedesk@gmail.com">daterbasedesk@gmail.com</a><br>
-  Daterbase — made with Claude (vibe coding)
-</footer>
-</main></body></html>
+</div>
+<footer><div class="word">Daterbase</div>
+<a href="privacy">개인정보 처리방침 · Privacy Policy</a> · <a href="terms">이용약관 · Terms</a><br>문의 <a href="mailto:daterbasedesk@gmail.com">daterbasedesk@gmail.com</a><br>Daterbase — made with Claude (vibe coding)</footer>
+</body></html>
