@@ -6,23 +6,25 @@
 <title>Daterbase PC 프로그램 받기</title>
 <meta name="description" content="Daterbase PC 프로그램(Windows) 설치 파일 받기와 설치 방법.">
 <link rel="canonical" href="https://daterbase.net/pc/">
+<link rel="preload" href="/p.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="/favicon.svg">
 <style>
-:root{--bg:#F6F5F0;--panel:#FDFCFA;--fg:#2E2D29;--sub:#6B6862;--ac:#A199B1;--ac-ink:#5B536C;--ac-soft:#E7E4EC;--line:#E3E0DA;--ms:#0067B8}
-@media (prefers-color-scheme:dark){:root{--bg:#1E1D21;--panel:#29282D;--fg:#ECE9F1;--sub:#AAA6B2;--ac:#B4AACA;--ac-ink:#D8D0EA;--ac-soft:#3A3645;--line:#3A3940;--ms:#4CA3F0}}
+@font-face{font-family:P;src:url(/p.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--page:#F2F7AE;--card:#FFFFFF;--ink:#2B2B2B;--sub:#626262;--green:#16794A;--soft:#E4EBC2;--line:#E4E6D2;--ms:#0067B8}
+@media (prefers-color-scheme:dark){:root{--page:#14150F;--card:#1C1D18;--ink:#ECEDE4;--sub:#A9AA9E;--green:#7CCB9C;--soft:#26271F;--line:#3A3B31;--ms:#4CA3F0}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;word-break:keep-all;padding:32px 16px}
+body{margin:0;background:var(--page);color:var(--ink);font:14px/1.5 P,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;word-break:keep-all;padding:32px 16px}
 main{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
-h1{font-size:24px;line-height:1.35;letter-spacing:-1px;margin:0;font-weight:700}
-h2{font-size:17px;line-height:1.35;letter-spacing:-.5px;margin:0;font-weight:700}
+h1{font-size:24px;line-height:1.35;letter-spacing:-1px;margin:0;font-weight:800}
+h2{font-size:17px;line-height:1.35;letter-spacing:-.5px;margin:0;font-weight:800}
 p{margin:0}
 .sub{color:var(--sub)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 24px;border-radius:999px;background:var(--ac-ink);color:var(--panel);font-weight:600;text-decoration:none;align-self:flex-start}
-.btn:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 24px;border-radius:999px;background:var(--ink);color:var(--page);font-weight:800;text-decoration:none;align-self:flex-start}
+.btn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
 ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
 li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
-li>i{width:28px;height:28px;border-radius:999px;background:var(--ac-soft);color:var(--ac-ink);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:700;font-size:12px}
+li>i{width:28px;height:28px;border-radius:999px;background:var(--soft);color:var(--green);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:700;font-size:12px}
 li>div{display:flex;flex-direction:column;gap:8px}
 /* Windows 경고 창 모형 (그림) */
 .win{border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:12px;max-width:360px}
