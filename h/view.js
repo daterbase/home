@@ -10,7 +10,8 @@
   var m = /^\/h\/([a-z0-9][a-z0-9-]{1,18}[a-z0-9])\/?$/.exec(location.pathname);
   if (!m) return;
   var NAME = m[1];
-  var CSP = "default-src 'none'; img-src https://drive.google.com https://lh3.googleusercontent.com https://lh4.googleusercontent.com https://lh5.googleusercontent.com https://lh6.googleusercontent.com data:; style-src 'unsafe-inline'; font-src data:; base-uri 'none'; form-action 'none'";
+  // 그림·글꼴 주소는 아래 mhUrlIn 목록과 같은 집만(글꼴 CSS 안의 글꼴 파일 길까지 다 적을 수 없어 jsdelivr는 집 단위)
+  var CSP = "default-src 'none'; img-src https://drive.google.com https://lh3.googleusercontent.com https://lh4.googleusercontent.com https://lh5.googleusercontent.com https://lh6.googleusercontent.com https://i.imgur.com https://i.postimg.cc https://i.ibb.co https://pbs.twimg.com/media/ https://i.pinimg.com data:; style-src 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://fastly.jsdelivr.net; font-src data: https://fonts.gstatic.com https://cdn.jsdelivr.net https://fastly.jsdelivr.net; base-uri 'none'; form-action 'none'";
   var esc = function (v) {
     return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -35,10 +36,43 @@
   var rid = function (r) {
     return "r-" + String(r.id || "").replace(/[^A-Za-z0-9_-]/g, "");
   };
-  /* 사용자 CSS: 틀 안 CSP가 막지만 한 번 더 거름 */
-  function cssSafe(c) {
+  /*@mh-safe 시작: 앱(parts/내홈.js)과 보기 페이지(h/view.js)에 글자 하나 다르지 않게 같이 둔다(시험 내홈_html.test.cjs가 견줌). ES5만.
+    사용자 HTML·CSS 거르기(04 11-27 'HTML·글꼴·바깥 그림·움직임도'): 정해 둔 것만 다시 써서 내보낸다(받은 글을 그대로 넘기지 않음).
+    스크립트·on…속성·바깥 페이지(iframe·form·meta·link)·id(앱 이름 덮기) X. 바깥 주소는 아래 목록만(https). 보기 페이지는 틀(sandbox, 스크립트 X) + CSP가 한 번 더 막는다. */
+  var MH_URL_IMG = ["drive.google.com/", "lh3.googleusercontent.com/", "lh4.googleusercontent.com/", "lh5.googleusercontent.com/", "lh6.googleusercontent.com/", "i.imgur.com/", "i.postimg.cc/", "i.ibb.co/", "pbs.twimg.com/media/", "i.pinimg.com/"];
+  /* 글꼴: 구글 폰트 · 눈누(projectnoonnu) · Pretendard · Galmuri */
+  var MH_URL_FONT = ["fonts.gstatic.com/", "cdn.jsdelivr.net/gh/projectnoonnu/", "fastly.jsdelivr.net/gh/projectnoonnu/", "cdn.jsdelivr.net/gh/orioncactus/pretendard/", "cdn.jsdelivr.net/gh/orioncactus/pretendard@", "cdn.jsdelivr.net/npm/galmuri/", "cdn.jsdelivr.net/npm/galmuri@"];
+  var MH_URL_CSS = ["fonts.googleapis.com/css2?", "fonts.googleapis.com/css?"].concat(MH_URL_FONT.slice(1));
+  function mhUrlIn(u, list) {
+    u = String(u == null ? "" : u);
+    if (u.length > 500 || !/^https:\/\/[A-Za-z0-9._~:\/?#\[\]@!$&*+,;=%-]+$/.test(u) || /\.\.|%2e|%2f|%5c/i.test(u)) return !1;
+    for (var i = 0; i < list.length; i++) if (u.indexOf(list[i]) === 8) return !0;
+    return !1;
+  }
+  var mhDataImg = function (u) {
+    return /^data:image\/(?:png|jpeg|gif|webp)(?:;[a-z0-9=.-]+)*;base64,[A-Za-z0-9+\/=]+$/i.test(String(u || ""));
+  };
+  var MH_IMP_RE = /@import\s+(?:url\(\s*(["']?)([^"')\s]*)\1\s*\)|(["'])([^"']*)\3)[^;]*;?/gi;
+  /* 사용자 CSS → 글꼴 불러오기 줄(@import, 목록 안 주소만). 맨 앞에 따로 둬야 먹어서 본문(mhCssSafe)과 나눔 */
+  function mhFontImports(c) {
+    var o = [],
+      m;
     c = String(c || "").slice(0, 20000);
-    // 앱 mhCssSafe와 같은 거르기(시험 사례 같이 씀): 바뀌지 않을 때까지 되풀이
+    MH_IMP_RE.lastIndex = 0;
+    while ((m = MH_IMP_RE.exec(c)) && o.length < 8) {
+      var u = m[2] || m[4] || "";
+      if (mhUrlIn(u, MH_URL_CSS) && o.indexOf(u) < 0) o.push(u);
+    }
+    return o
+      .map(function (u) {
+        return '@import url("' + u + '");';
+      })
+      .join("\n");
+  }
+  /* 사용자 CSS 본문: 이스케이프 풀기 → < \ 빼기 → @import 빼기 → url()은 그림·글꼴 목록 안 주소와 data: 그림만 → 괄호 짝 */
+  function mhCssSafe(c) {
+    c = String(c || "").slice(0, 20000);
+    // 거르고 나서 다시 생기는 꼴(<<//style>·u\72l( 이스케이프)까지: 바뀌지 않을 때까지 되풀이
     for (var i = 0, p = null; i < 8 && p !== c; i++) {
       p = c;
       c = c
@@ -48,21 +82,185 @@
         })
         .replace(/\\([^0-9a-f])/gi, "$1")
         .replace(/[<\\]/g, "")
+        .replace(MH_IMP_RE, "")
         .replace(/@import[^;]*;?/gi, "")
         .replace(/(?:-webkit-)?image-set\([^;}]*/gi, "none")
-        .replace(/url\(\s*['"]?\s*(?!data:image\/)[^)]*\)/gi, "none");
+        .replace(/url\(\s*(["']?)([^)]*?)\1\s*\)/gi, function (m, q, u) {
+          u = u.replace(/\s+/g, "");
+          return mhDataImg(u) || mhUrlIn(u, MH_URL_IMG) || mhUrlIn(u, MH_URL_FONT) ? 'url("' + u + '")' : "none";
+        })
+        .replace(/url\((?!"[^"()\s]*"\))/gi, "none(");
     }
+    // 괄호 짝: 남는 } 는 빼고(감싼 @scope 밖으로 못 나가게), 안 닫힌 { 는 닫음.
+    //  주석은 지우고, 따옴표 글 안의 { } 는 뺌(브라우저는 그 안 괄호를 안 세서, 세는 법이 다르면 @scope 밖으로 샘 · 검토 11-28)
+    //  CSS 따옴표 글은 줄이 바뀌면 끝나므로 줄 끝·글 끝에서 닫아 줌
     var d = 0,
-      o = "";
+      o = "",
+      qq = "";
     for (var k = 0; k < c.length; k++) {
       var ch = c.charAt(k);
-      if (ch === "}") {
+      if (qq) {
+        if (ch === qq) qq = "";
+        else if (ch === "\n" || ch === "\r" || ch === "\f") {
+          o += qq;
+          qq = "";
+        } else if (ch === "{" || ch === "}") continue;
+        o += ch;
+        continue;
+      }
+      if (ch === "/" && c.charAt(k + 1) === "*") {
+        var ce = c.indexOf("*/", k + 2);
+        k = ce < 0 ? c.length : ce + 1;
+        o += " ";
+        continue;
+      }
+      if (ch === '"' || ch === "'") qq = ch;
+      else if (ch === "}") {
         if (!d) continue;
         d--;
       } else if (ch === "{") d++;
       o += ch;
     }
-    return o + "}".repeat(d);
+    return o + qq + "}".repeat(d);
+  }
+  /* 쓸 수 있는 태그(옛 갠홈 태그 marquee·center·font 포함) · 빈 태그 · 안까지 통째로 버리는 태그 */
+  var MH_HT_OK = " a abbr article aside b big blockquote br caption center cite code col colgroup dd del details dfn div dl dt em figcaption figure font footer h1 h2 h3 h4 h5 h6 header hr i img ins kbd li main mark marquee nav ol p pre q rp rt ruby s samp section small span strike strong sub summary sup table tbody td tfoot th thead time tr tt u ul var wbr ";
+  var MH_HT_VOID = " br hr img col wbr ";
+  var MH_HT_DROP = " script style textarea iframe frame frameset object embed noscript noembed noframes template title xmp plaintext svg math select option head ";
+  /* 속성: 모든 태그 공통 + 태그마다. on…·id·name·target·srcset·formaction 같은 건 목록에 없어서 빠짐 */
+  var MH_HT_AT = {
+    "*": " class style title lang dir align ",
+    a: " href ",
+    img: " src alt width height ",
+    font: " color size face ",
+    ol: " start type reversed ",
+    li: " value ",
+    details: " open ",
+    time: " datetime ",
+    marquee: " direction behavior scrollamount scrolldelay loop width height bgcolor ",
+    table: " border cellpadding cellspacing width bgcolor ",
+    td: " colspan rowspan width height valign bgcolor ",
+    th: " colspan rowspan width height valign bgcolor ",
+    tr: " valign bgcolor ",
+    col: " span width ",
+    colgroup: " span width ",
+  };
+  var mhHtEsc = function (v) {
+    return String(v).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  };
+  /* 속성 값의 문자 참조 풀기(&#106; &#x6A; &quot; …): 푼 다음 확인하고, 내보낼 땐 다시 감쌈 */
+  var mhHtUn = function (v) {
+    return String(v)
+      .replace(/&#x([0-9a-f]{1,6});?/gi, function (m, h) {
+        var n = parseInt(h, 16);
+        return n > 0 && n < 0x110000 ? String.fromCodePoint(n) : "";
+      })
+      .replace(/&#([0-9]{1,7});?/g, function (m, h) {
+        var n = parseInt(h, 10);
+        return n > 0 && n < 0x110000 ? String.fromCodePoint(n) : "";
+      })
+      .replace(/&(amp|lt|gt|quot|apos|nbsp|tab|newline|colon);?/gi, function (m, n) {
+        return { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ", tab: "\t", newline: "\n", colon: ":" }[n.toLowerCase()];
+      });
+  };
+  function mhHtAttr(tg, nm, v) {
+    v = mhHtUn(v).replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, 2000);
+    if (nm === "href") return /^(https?:\/\/[^\s"'<>`]+|mailto:[^\s"'<>`]+)$/i.test(v) ? v : null;
+    if (nm === "src") return mhDataImg(v) || mhUrlIn(v, MH_URL_IMG) ? v : null;
+    if (nm === "style") return mhCssSafe(v).replace(/[{}]/g, "");
+    if (nm === "class") return v.replace(/[^A-Za-z0-9_ -]/g, "").slice(0, 200);
+    if (nm === "color" || nm === "bgcolor") return /^#?[0-9a-z]{1,20}$/i.test(v) ? v : null;
+    if (nm === "face") return v.replace(/[^A-Za-z0-9가-힣 ,_-]/g, "").slice(0, 100);
+    if (nm === "title" || nm === "alt" || nm === "lang" || nm === "datetime") return v.slice(0, 200);
+    if (nm === "open" || nm === "reversed") return "";
+    if (/^(width|height|size|start|value|colspan|rowspan|span|border|cellpadding|cellspacing|scrollamount|scrolldelay|loop)$/.test(nm)) return /^-?[0-9]{1,5}%?$/.test(v) ? v : null;
+    return /^[a-z-]{1,12}$/i.test(v) ? v : null;
+  }
+  /* 사용자 HTML → 거른 HTML. 태그를 하나씩 읽어 목록 안 것만 다시 쓰고, 열린 태그는 끝에서 닫는다(방 밖으로 못 새게) */
+  function mhHtmlSafe(src) {
+    src = String(src == null ? "" : src).slice(0, 20000);
+    var o = "",
+      st = [],
+      i = 0,
+      n = src.length,
+      TAG = /^<(\/?)([a-zA-Z][a-zA-Z0-9]*)((?:[^>"']|"[^"]*"|'[^']*')*)>/,
+      AT = /([^\s"'>\/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+    while (i < n) {
+      var c = src.charAt(i);
+      if (c === "<") {
+        if (src.substr(i, 4) === "<!--") {
+          var e = src.indexOf("-->", i + 4);
+          i = e < 0 ? n : e + 3;
+          continue;
+        }
+        var m = TAG.exec(src.slice(i, i + 4000));
+        if (!m) {
+          o += "&lt;";
+          i++;
+          continue;
+        }
+        i += m[0].length;
+        var tg = m[2].toLowerCase();
+        if (m[1]) {
+          var at = st.lastIndexOf(tg);
+          if (at >= 0) while (st.length > at) o += "</" + st.pop() + ">";
+          continue;
+        }
+        if (MH_HT_DROP.indexOf(" " + tg + " ") >= 0) {
+          var cl = src.toLowerCase().indexOf("</" + tg, i);
+          if (cl < 0) i = n;
+          else {
+            var gt = src.indexOf(">", cl);
+            i = gt < 0 ? n : gt + 1;
+          }
+          continue;
+        }
+        if (MH_HT_OK.indexOf(" " + tg + " ") < 0) continue;
+        var ok = (MH_HT_AT["*"] + (MH_HT_AT[tg] || "")).split(" "),
+          a = "",
+          seen = {},
+          am;
+        AT.lastIndex = 0;
+        while ((am = AT.exec(m[3]))) {
+          var nm = am[1].toLowerCase();
+          if (ok.indexOf(nm) < 0 || seen[nm]) continue;
+          seen[nm] = 1;
+          var v = mhHtAttr(tg, nm, am[2] != null ? am[2] : am[3] != null ? am[3] : am[4] != null ? am[4] : "");
+          if (v != null) a += " " + nm + '="' + mhHtEsc(v) + '"';
+        }
+        if (tg === "img") {
+          if (!seen.src || a.indexOf(' src="') < 0) continue;
+          a += ' referrerpolicy="no-referrer" loading="lazy"';
+        }
+        if (tg === "a") a += ' target="_blank" rel="noopener noreferrer"';
+        o += "<" + tg + a + ">";
+        if (MH_HT_VOID.indexOf(" " + tg + " ") < 0) st.push(tg);
+        if (st.length > 64) o += "</" + st.pop() + ">";
+        continue;
+      }
+      var j = src.indexOf("<", i);
+      if (j < 0) j = n;
+      o += src
+        .slice(i, j)
+        .replace(/&(?!(?:#[0-9]{1,7}|#x[0-9a-f]{1,6}|[a-z][a-z0-9]{1,31});)/gi, "&amp;")
+        .replace(/>/g, "&gt;");
+      i = j;
+    }
+    while (st.length) o += "</" + st.pop() + ">";
+    return o;
+  }
+  /*@mh-safe 끝*/
+  /* 거른 HTML을 브라우저가 한 번 읽은 꼴로(DOMParser는 스크립트·그림을 안 부름): 거르기와 브라우저 읽기가 다른 곳
+     (예: 새 <li>가 앞 <li> 안 <div>를 닫음)이 있어도 남는 닫기 태그가 방(<section>) 밖으로 못 나가게(검토 11-28) */
+  function htm(x) {
+    x = mhHtmlSafe(x);
+    try {
+      return new DOMParser().parseFromString("<!doctype html><body>" + x, "text/html").body.innerHTML;
+    } catch (_) {
+      return esc(x);
+    }
   }
   function item(i) {
     var k = i.k,
@@ -71,6 +269,7 @@
     else if (k === "img") b = '<div class="h-img">' + img(i.img) + "</div>";
     else if (k === "sticker") b = '<span class="h-sticker">' + esc(i.t) + "</span>";
     else if (k === "banner") b = '<span class="h-banner">' + (i.img ? img(i.img, i.t) : esc(i.t)) + "</span>";
+    else if (k === "html") b = '<div class="h-html">' + htm(i.t) + "</div>";
     else if (k === "link") b = urlOk(i.url) ? '<a class="h-link" href="' + esc(i.url) + '" target="_blank" rel="noopener noreferrer">' + esc(i.t || i.url) + "</a>" : '<span class="h-link">' + esc(i.t) + "</span>";
     else b = '<p class="h-text">' + esc(i.t) + "</p>";
     var st = "--x:" + (num(i.x, 0, 960) / 9.6).toFixed(3) + "%;--y:" + num(i.y, 0, 20000) + "px;--w:" + (num(i.w, 8, 960) / 9.6).toFixed(3) + "%;--h:" + num(i.h, 8, 4000) + "px;--r:" + num(i.r, -45, 45) + "deg;--z:" + num(i.z, 0, 9999);
@@ -87,6 +286,7 @@
             })
             .join("")
         : '<p class="h-none">아직 글이 없어요.</p>';
+    if (r.t === "html") return '<div class="h-html h-hroom">' + htm(b.html) + "</div>";
     if (r.t === "rev")
       return (
         '<div class="h-cards">' +
@@ -145,7 +345,9 @@
       BASE +
       (cur ? cur + "{" + CUR + "}" : "") +
       "</style><style>" +
-      cssSafe(S.css) +
+      mhFontImports(S.css) +
+      "\n" +
+      mhCssSafe(S.css) +
       '</style></head><body><div class="h-site k-' +
       k +
       (ent ? " has-ent" : "") +
@@ -176,6 +378,7 @@
     ".h-sticker{flex:1;display:flex;align-items:center;justify-content:center;font-size:32px;line-height:1}",
     ".h-banner{background:#fff;outline:1px solid #ccc;outline-offset:-1px;font-size:12px}",
     ".h-link{display:flex;align-items:center;color:inherit}",
+    ".h-html{flex:1;min-width:0;overflow:auto;contain:layout paint;word-break:keep-all}.h-hroom{overflow:visible;min-height:320px}.h-html img{max-width:100%}.h-room:has(.h-hroom) .h-room-title{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}",
     ".h-post{display:flex;gap:16px;padding:16px;margin-bottom:16px;background:#fff;border:1px solid rgba(0,0,0,.1)}.h-post-img{flex:none;width:96px;height:72px;overflow:hidden;background:#eee}.h-post span{font-size:12px;color:#666}.h-post p{margin:0;white-space:pre-wrap}",
     ".h-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.h-card{display:flex;flex-direction:column;gap:4px;padding:8px 8px 12px;background:#fff;border:1px solid rgba(0,0,0,.08)}.h-card-img{aspect-ratio:2/3;background:#eee;overflow:hidden}.h-card span{font-size:12px;color:#666}.h-card i{font-style:normal;color:#E2A93B}.h-card p{margin:0;font-size:12px}",
     ".h-none{color:#666}",
@@ -288,5 +491,5 @@
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
-  window.__hv = { page: page, cssSafe: cssSafe };
+  window.__hv = { page: page, cssSafe: mhCssSafe, htmlSafe: mhHtmlSafe };
 })();
